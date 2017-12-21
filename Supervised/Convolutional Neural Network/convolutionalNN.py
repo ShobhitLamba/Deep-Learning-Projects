@@ -3,7 +3,7 @@
 # Part 1 - Building the CNN
 
 from keras.models import Sequential
-from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense
+from keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropout
 
 # Initialising the CNN
 classifier = Sequential()
@@ -11,13 +11,21 @@ classifier = Sequential()
 # Step 1 - Convolution
 # Theano backend will specify colors before the size in input_shape argument. 
 # Since I am using Tensorflow backend, I use this nottation.
-classifier.add(Conv2D(32, (3, 3), input_shape = (64, 64, 3), activation = 'relu'))
+classifier.add(Conv2D(32, (3, 3), padding = 'same', input_shape = (64, 64, 3), activation = 'relu'))
 
 # Step 2 - Pooling
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Adding a second convolutional layer
-classifier.add(Conv2D(32, (3, 3), activation = 'relu'))
+classifier.add(Conv2D(32, (3, 3), padding = 'same', activation = 'relu'))
+classifier.add(MaxPooling2D(pool_size = (2, 2)))
+
+# Adding a third convolutional layer
+classifier.add(Conv2D(64, (3, 3), padding = 'same', activation = 'relu'))
+classifier.add(MaxPooling2D(pool_size = (2, 2)))
+
+# Adding a fourth convolutional layer
+classifier.add(Conv2D(64, (3, 3), padding = 'same', activation = 'relu'))
 classifier.add(MaxPooling2D(pool_size = (2, 2)))
 
 # Step 3 - Flattening
@@ -25,6 +33,10 @@ classifier.add(Flatten())
 
 # Step 4 - Full Connection
 classifier.add(Dense(output_dim = 128, activation = 'relu'))
+classifier.add(Dropout(0.6))
+classifier.add(Dense(output_dim = 128, activation = 'relu'))
+classifier.add(Dense(output_dim = 128, activation = 'relu'))
+classifier.add(Dropout(0.3))
 classifier.add(Dense(output_dim = 1, activation = 'sigmoid'))
 
 # Compiling the CNN
@@ -52,6 +64,6 @@ test_set = test_datagen.flow_from_directory('cats_dogs_dataset/test_set',
 
 classifier.fit_generator(training_set,
                          steps_per_epoch = 8000,
-                         epochs = 25,
+                         epochs = 100,
                          validation_data = test_set,
                          validation_steps = 2000)
