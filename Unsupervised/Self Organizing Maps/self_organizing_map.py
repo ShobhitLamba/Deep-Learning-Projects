@@ -46,5 +46,5 @@ show()
 
 # Finding the frauds
 mappings = som.win_map(X)
-frauds = np.concatenate((mappings[(2, 6)], mappings[(4, 9)]), axis = 0) #Values will change everytime you train the SOM. So change values accordingly
+frauds = np.concatenate((mappings[(2, 6)], mappings[(4, 9)]), axis = 0) # Values will change everytime you train the SOM. So change values accordingly
 frauds = sc.inverse_transform(frauds)
