@@ -10,7 +10,7 @@ classifier = Sequential()
 
 # Step 1 - Convolution
 # Theano backend will specify colors before the size in input_shape argument. 
-# Since I am using Tensorflow backend, I use this nottation.
+# Since I am using Tensorflow backend, I use this notation.
 classifier.add(Conv2D(32, (3, 3), padding = 'same', input_shape = (64, 64, 3), activation = 'relu'))
 
 # Step 2 - Pooling
@@ -34,7 +34,6 @@ classifier.add(Flatten())
 # Step 4 - Full Connection
 classifier.add(Dense(output_dim = 128, activation = 'relu'))
 classifier.add(Dropout(0.6))
-classifier.add(Dense(output_dim = 128, activation = 'relu'))
 classifier.add(Dense(output_dim = 128, activation = 'relu'))
 classifier.add(Dropout(0.3))
 classifier.add(Dense(output_dim = 1, activation = 'sigmoid'))
